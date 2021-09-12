@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">XJTLU Passcode</string>
+    <string name="textView">我的第一个Android应用</string>
+    <string name="button">西浦</string>
+    <string name="buttonWenxing">文星</string>
+    <string name="buttonXingcheng">行程</string>
+    <string name="buttonSukang">苏康</string>
+    <string name="textDebug">Debug information</string>
+</resources>
