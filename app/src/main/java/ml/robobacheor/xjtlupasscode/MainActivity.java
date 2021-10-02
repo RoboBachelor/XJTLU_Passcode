@@ -337,9 +337,16 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
 
+            int[] goldenBg = new int[(width + 8) * (height + 8)];
+            for(int y = 0; y < (width + 8) * (height + 8); y++){
+                goldenBg[y] = 0xFFF4CC70;
+            }
+
             /** 4.创建Bitmap对象,根据像素数组设置Bitmap每个像素点的颜色值,之后返回Bitmap对象 */
-            Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-            bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
+            Bitmap bitmap = Bitmap.createBitmap(width + 8, height + 8, Bitmap.Config.ARGB_8888);
+
+            bitmap.setPixels(goldenBg, 0, width + 8, 0, 0, width + 8, height + 8);
+            bitmap.setPixels(pixels, 0, width, 4, 4, width, height);
             return bitmap;
         } catch (WriterException e) {
             e.printStackTrace();
