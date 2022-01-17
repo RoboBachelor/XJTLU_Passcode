@@ -5,5 +5,6 @@
     <string name="buttonWenxing">文星</string>
     <string name="buttonXingcheng">行程</string>
     <string name="buttonSukang">苏康</string>
+    <string name="buttonDuke">杜克</string>
     <string name="textDebug">Debug information</string>
 </resources>

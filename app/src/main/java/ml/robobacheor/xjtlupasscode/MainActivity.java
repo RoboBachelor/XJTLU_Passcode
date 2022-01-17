@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
     enum Mode
     {
-        INIT, XIPU, WENXING, XINGCHENG, SUKANG;
+        INIT, XIPU, WENXING, XINGCHENG, SUKANG, DUKE;
     }
 
     Mode curMode = Mode.INIT;
@@ -149,17 +149,19 @@ public class MainActivity extends AppCompatActivity {
         ImageView wenxingView = (ImageView)findViewById(R.id.imageView2);
 
         if(curMode != Mode.WENXING && curMode != Mode.XIPU){
-
             passcodeWebView = findViewById(R.id.webView);
             passcodeWebView.loadUrl("file:///android_asset/Passcode.html");
+        }
 
+        if (curMode != Mode.WENXING){
             wenxingBgView.setVisibility(View.VISIBLE);
-
             wenxingView.setVisibility(View.VISIBLE);
             wenxingView.setTranslationY(205);
-
-            curMode = Mode.WENXING;
+            wenxingView.setScaleX(1.f);
+            wenxingView.setScaleY(1.f);
         }
+
+        curMode = Mode.WENXING;
 
         long timeStamp = System.currentTimeMillis();
 
@@ -170,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
         TextView textView = (TextView)findViewById(R.id.textView1);
         textView.setText(timeNow + "\n" + wenxingQRStr);
 
-        Bitmap passcodeBmp = createQRCodeBitmap(wenxingQRStr, 200, 200, null, "M", "0", 0xFF000000, 0xFFFFFFFF);
+        Bitmap passcodeBmp = createQRCodeBitmap(wenxingQRStr, 200, 200, null, "M", "0", 0xFF000000, 0xFFFFFFFF, true);
 
         runOnUiThread(new Runnable() {
             @Override
@@ -195,6 +197,8 @@ public class MainActivity extends AppCompatActivity {
 
             passcodeView.setVisibility(View.VISIBLE);
             passcodeView.setTranslationY(0);
+            passcodeView.setScaleX(1.f);
+            passcodeView.setScaleY(1.f);
 
             wenxingBgView.setVisibility(View.INVISIBLE);
 
@@ -267,7 +271,7 @@ public class MainActivity extends AppCompatActivity {
 
                     textView.setText(timeNow + "\n" + QRInfo);
 
-                    Bitmap passcodeBmp = createQRCodeBitmap(QRInfo, 200, 200, null, "H", "0", 0xFF00A650, 0xFFFFFFFF);
+                    Bitmap passcodeBmp = createQRCodeBitmap(QRInfo, 200, 200, null, "H", "0", 0xFF00A650, 0xFFFFFFFF, true);
 
                     runOnUiThread(new Runnable() {
                         @Override
@@ -280,6 +284,104 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+
+    public void refreshDKUCode(){
+
+        ImageView wenxingBgView = (ImageView)findViewById(R.id.imageView3);
+
+        TextView textView = (TextView)findViewById(R.id.textView1);
+        textView.setText("Refreshing...");
+
+        ImageView passcodeView = (ImageView)findViewById(R.id.imageView2);
+
+        if (curMode != Mode.DUKE) {
+            passcodeWebView = findViewById(R.id.webView);
+            passcodeWebView.loadUrl("file:///android_asset/DKU_Code.html");
+
+            passcodeView.setVisibility(View.VISIBLE);
+            passcodeView.setTranslationY(-70);
+            passcodeView.setScaleX(0.8f);
+            passcodeView.setScaleY(0.8f);
+
+            wenxingBgView.setVisibility(View.INVISIBLE);
+
+            curMode = Mode.DUKE;
+        }
+
+        RequestBody emptybody = RequestBody.create(new byte[]{});
+
+        Request request = new Request.Builder()
+                .url("http://access.dukekunshan.edu.cn/api/PassCode/GetUserPassCodeInfo?adcode=es356")
+                .method("GET", null)
+                .header("Connection", "keep-alive")
+                .addHeader("Accept", "application/json, text/plain, */*")
+                .addHeader("cid", "ccef7d85-5307-4e7c-881a-ad0d2203410a")
+                .addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.104 Safari/537.36")
+                .addHeader("Referer", "http://access.dukekunshan.edu.cn/user/")
+                .addHeader("Accept-Language", "zh-CN,zh;q=0.9,ja;q=0.8,en;q=0.7")
+                .addHeader("Cookie", "source=www.google.com; _ga=GA1.3.2059760248.1611815383")
+                .addHeader("DNT", "1")
+                .build();
+
+        client.newCall(request).enqueue(new Callback() {
+            @Override public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+
+                textView.setText(e.getMessage());
+            }
+
+            @Override public void onResponse(Call call, Response response) throws IOException {
+                try (ResponseBody responseBody = response.body()) {
+                    if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+
+                    Headers responseHeaders = response.headers();
+                    for (int i = 0, size = responseHeaders.size(); i < size; i++) {
+                        System.out.println(responseHeaders.name(i) + ": " + responseHeaders.value(i));
+                    }
+
+                    String passcodeInfo = responseBody.string();
+                    String passcodeKey = "PassCode\"";
+                    String QRInfo = "No Data";
+
+                    boolean found;
+                    for(int i = 50; i < passcodeInfo.length(); ++i){
+                        found = true;
+                        for(int j = 0; j < passcodeKey.length(); ++j){
+                            if(i + j >= passcodeInfo.length()){
+                                found = false;
+                                break;
+                            }
+                            if(passcodeInfo.charAt(i + j) != passcodeKey.charAt(j)){
+                                found = false;
+                                break;
+                            }
+                        }
+                        if(found){
+                            i += 11;
+                            QRInfo = (String)(passcodeInfo.subSequence(i, i + 96));
+                            break;
+                        }
+                    }
+
+                    String timeNow = DateFormat.getDateTimeInstance().format(new Date());
+
+                    textView.setText(timeNow + "\n" + QRInfo);
+
+                    Bitmap passcodeBmp = createQRCodeBitmap(QRInfo, 200, 200, null, "H", "0", 0xFF00A650, 0xFFFFFFFF, false);
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            passcodeView.setImageBitmap(passcodeBmp);
+                        }
+                    });
+
+                }
+            }
+        });
+    }
+
 
     /**
      * 创建二维码位图 (支持自定义配置和自定义样式)
@@ -297,7 +399,7 @@ public class MainActivity extends AppCompatActivity {
     @Nullable
     public static Bitmap createQRCodeBitmap(String content, int width, int height,
                                             @Nullable String character_set, @Nullable String error_correction, @Nullable String margin,
-                                            @ColorInt int color_black, @ColorInt int color_white){
+                                            @ColorInt int color_black, @ColorInt int color_white, boolean golden){
 
         /** 1.参数合法性判断 */
         if(TextUtils.isEmpty(content)){ // 字符串内容判空
@@ -343,10 +445,18 @@ public class MainActivity extends AppCompatActivity {
             }
 
             /** 4.创建Bitmap对象,根据像素数组设置Bitmap每个像素点的颜色值,之后返回Bitmap对象 */
-            Bitmap bitmap = Bitmap.createBitmap(width + 8, height + 8, Bitmap.Config.ARGB_8888);
 
-            bitmap.setPixels(goldenBg, 0, width + 8, 0, 0, width + 8, height + 8);
-            bitmap.setPixels(pixels, 0, width, 4, 4, width, height);
+            Bitmap bitmap;
+            if(golden){
+                bitmap = Bitmap.createBitmap(width + 8, height + 8, Bitmap.Config.ARGB_8888);
+                bitmap.setPixels(goldenBg, 0, width + 8, 0, 0, width + 8, height + 8);
+                bitmap.setPixels(pixels, 0, width, 4, 4, width, height);
+            }
+            else{
+                bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+                bitmap.setPixels(pixels, 0, width, 0, 0, width, height);
+            }
+
             return bitmap;
         } catch (WriterException e) {
             e.printStackTrace();
@@ -432,6 +542,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        final Button buttonDuke = findViewById(R.id.button5);
+        buttonDuke.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Code here executes on main thread after user presses button
+                refreshDKUCode();
+            }
+        });
 
         ImageView wenxingBgView = (ImageView)findViewById(R.id.imageView3);
         Bitmap wenxingBmp = getImg("wenxing_screenshot.png");
