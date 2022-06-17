@@ -95,7 +95,7 @@
                                     </tr>
                                     <tr data-v-e98ba008="">
                                         <td data-v-e98ba008="" class="label-name">Department</td>
-                                        <td data-v-e98ba008="" class="label-value">Digital Media Technology</td>
+                                        <td data-v-e98ba008="" class="label-value">PhD in Digital Media Technology</td>
                                     </tr>
                                     <tr data-v-e98ba008="">
                                         <td data-v-e98ba008="" class="label-name">Email</td>
@@ -128,7 +128,7 @@
         //获取当前时间
         var date = new Date();
         //格式化为本地时间格式
-        var date1 = date.toLocaleString('chinese', { hour12: false });
+        var date1 = date.toLocaleString('chinese', {year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false });
         //获取div
         var div1 = document.getElementById("time");
         //将时间写入div

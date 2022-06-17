@@ -32,55 +32,65 @@
 
     <Button
         android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_width="64dp"
+        android:layout_height="32dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="12dp"
         android:background="#11000000"
+        android:lineSpacingExtra="0sp"
         android:text="@string/button"
+        android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
         android:id="@+id/button2"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_marginBottom="16dp"
+        android:layout_width="64dp"
+        android:layout_height="32dp"
+        android:layout_marginBottom="32dp"
         android:background="#11000000"
+        android:lineSpacingExtra="0sp"
         android:text="@string/buttonWenxing"
+        android:textSize="12sp"
         app:layout_constraintBottom_toTopOf="@+id/button"
         app:layout_constraintEnd_toEndOf="@+id/button"
         app:layout_constraintStart_toStartOf="@+id/button" />
 
     <Button
         android:id="@+id/button3"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_marginBottom="16dp"
+        android:layout_width="64dp"
+        android:layout_height="32dp"
+        android:layout_marginBottom="32dp"
         android:background="#11000000"
+        android:lineSpacingExtra="0sp"
         android:text="@string/buttonXingcheng"
+        android:textSize="12sp"
         app:layout_constraintBottom_toTopOf="@+id/button2"
         app:layout_constraintEnd_toEndOf="@+id/button"
         app:layout_constraintStart_toStartOf="@+id/button" />
 
     <Button
         android:id="@+id/button4"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_marginBottom="16dp"
+        android:layout_width="64dp"
+        android:layout_height="32dp"
+        android:layout_marginBottom="32dp"
         android:background="#11000000"
+        android:lineSpacingExtra="0sp"
         android:text="@string/buttonSukang"
+        android:textSize="12sp"
         app:layout_constraintBottom_toTopOf="@+id/button3"
         app:layout_constraintEnd_toEndOf="@+id/button"
         app:layout_constraintStart_toStartOf="@+id/button" />
 
     <Button
         android:id="@+id/button5"
-        android:layout_width="0dp"
-        android:layout_height="48dp"
-        android:layout_marginBottom="16dp"
+        android:layout_width="64dp"
+        android:layout_height="32dp"
+        android:layout_marginBottom="32dp"
         android:background="#11000000"
+        android:lineSpacingExtra="0sp"
         android:text="@string/buttonDuke"
+        android:textSize="12sp"
         app:layout_constraintBottom_toTopOf="@+id/button4"
         app:layout_constraintEnd_toEndOf="@+id/button"
         app:layout_constraintStart_toStartOf="@+id/button" />
