@@ -12,9 +12,10 @@ jobs:
           with:
             submodules: recursive
             ref: main
+            path: 'src'
 
         - name: Build Android App
           uses: sparkfabrik/android-build-action@v1.2.0
           with:
-            project-path: /home/runner/work/XJTLU_Passcode/XJTLU_Passcode/
+            project-path: $GITHUB_WORKSPACE/src/
             output-path: release.apk
