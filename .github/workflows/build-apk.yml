@@ -16,7 +16,7 @@ jobs:
         uses: DarthBenro008/app-brickie@v3.0
         with:
           type: "native"
-          chatid: "cc496birbmbc724h072g"
+          chatid: "cc49eoqckp6s7271a4n0"
           packagename: "XPasscode"
       - name: Get Automated Result
         run: echo "${{ steps.appBrickieBuild.outputs.result }}"
