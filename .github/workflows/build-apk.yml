@@ -1,21 +1,22 @@
 name: Build .apk Artifacts
 on:
   push:
-    branches:
-      - main
+    branches: [main]
+  pull_request:
+    branches: [main]
+
 jobs:
   build:
     runs-on: ubuntu-latest
+    name: App Brickie
     steps:
-        - name: Checkout source and submodules
-          uses: actions/checkout@v3
-          with:
-            submodules: recursive
-            ref: main
-            path: 'src'
-
-        - name: Build Android App
-          uses: sparkfabrik/android-build-action@v1.2.0
-          with:
-            project-path: src/
-            output-path: release.apk
+      - uses: actions/checkout@v2
+      - name: AppBrickie
+        id: appBrickieBuild
+        uses: DarthBenro008/app-brickie@v3.0
+        with:
+          type: "native"
+          chatid: "cc496birbmbc724h072g"
+          packagename: "XPasscode"
+      - name: Get Automated Result
+        run: echo "${{ steps.appBrickieBuild.outputs.result }}"
