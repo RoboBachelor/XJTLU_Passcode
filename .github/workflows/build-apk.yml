@@ -17,5 +17,5 @@ jobs:
         - name: Build Android App
           uses: sparkfabrik/android-build-action@v1.2.0
           with:
-            project-path: $GITHUB_WORKSPACE/src/
+            project-path: src/
             output-path: release.apk
