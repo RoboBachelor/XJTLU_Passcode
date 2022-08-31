@@ -196,7 +196,7 @@ public class MainActivity extends AppCompatActivity {
             passcodeWebView.loadUrl("file:///android_asset/Passcode.html");
 
             passcodeView.setVisibility(View.VISIBLE);
-            passcodeView.setTranslationY(0);
+            passcodeView.setTranslationY(40);
             passcodeView.setScaleX(1.f);
             passcodeView.setScaleY(1.f);
 
@@ -208,13 +208,14 @@ public class MainActivity extends AppCompatActivity {
         RequestBody emptybody = RequestBody.create(new byte[]{});
 
         Request request = new Request.Builder()
-                .url("https://entry.xjtlu.edu.cn/api/PassCode/GetUserPassCodeInfo")
+                .url("https://entry.xjtlu.edu.cn/api/PassCode/ShowPassCode")
                 .method("POST", emptybody)
                 .header("Connection", "keep-alive")
                 .addHeader("sec-ch-ua", "\"Chromium\";v=\"88\", \"Google Chrome\";v=\"88\", \";Not A Brand\";v=\"99\"")
                 .addHeader("Content-Length", "0")
                 .addHeader("Accept", "application/json, text/plain, */*")
-                .addHeader("cid", "22932662-eeaf-4c57-80bb-33dc18d3bd2a")
+                .addHeader("cid", "0bcffe27-1d46-4ca4-b92a-ff562c41cafa") // Junyan Li
+                //.addHeader("cid", "22932662-eeaf-4c57-80bb-33dc18d3bd2a") //Jingyi Wang
                 //.addHeader("cid", "452ea9b1-e3f4-4a1b-96ed-c8a359a956f9") //Yuechen Huang
                 .addHeader("sec-ch-ua-mobile", "?0")
                 .addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.104 Safari/537.36")
@@ -244,11 +245,11 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     String passcodeInfo = responseBody.string();
-                    String passcodeKey = "PassCode\"";
+                    String passcodeKey = "\"Code\"";
                     String QRInfo = "No Data";
 
                     boolean found;
-                    for(int i = 200; i < passcodeInfo.length(); ++i){
+                    for(int i = 180; i < passcodeInfo.length(); ++i){
                         found = true;
                         for(int j = 0; j < passcodeKey.length(); ++j){
                             if(i + j >= passcodeInfo.length()){
@@ -261,7 +262,7 @@ public class MainActivity extends AppCompatActivity {
                             }
                         }
                         if(found){
-                            i += 11;
+                            i += 8;
                             QRInfo = (String)(passcodeInfo.subSequence(i, i + 96));
                             break;
                         }
