@@ -249,7 +249,7 @@ public class MainActivity extends AppCompatActivity {
                     String QRInfo = "No Data";
 
                     boolean found;
-                    for(int i = 180; i < passcodeInfo.length(); ++i){
+                    for(int i = 100; i < passcodeInfo.length(); ++i){
                         found = true;
                         for(int j = 0; j < passcodeKey.length(); ++j){
                             if(i + j >= passcodeInfo.length()){
