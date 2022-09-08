@@ -165,7 +165,8 @@ public class MainActivity extends AppCompatActivity {
 
         long timeStamp = System.currentTimeMillis();
 
-        String wenxingQRStr = "oIF__t4FOyjxLIeRwcs130wxoUdM|-|" + timeStamp;
+        // String wenxingQRStr = "oIF__t4FOyjxLIeRwcs130wxoUdM|-|" + timeStamp;
+        String wenxingQRStr = "or3265eTWLpabHcaI0MLcTHEowv0|-|" + timeStamp + "|x|huihutong";
 
         String timeNow = DateFormat.getDateTimeInstance().format(new Date());
 
@@ -214,8 +215,9 @@ public class MainActivity extends AppCompatActivity {
                 .addHeader("sec-ch-ua", "\"Chromium\";v=\"88\", \"Google Chrome\";v=\"88\", \";Not A Brand\";v=\"99\"")
                 .addHeader("Content-Length", "0")
                 .addHeader("Accept", "application/json, text/plain, */*")
-                .addHeader("cid", "0bcffe27-1d46-4ca4-b92a-ff562c41cafa") // Junyan Li
-                //.addHeader("cid", "22932662-eeaf-4c57-80bb-33dc18d3bd2a") //Jingyi Wang
+                //.addHeader("cid", "f223116f-2e1c-4d1b-968f-85b8b8e80018") // R. Qi
+                //.addHeader("cid", "0bcffe27-1d46-4ca4-b92a-ff562c41cafa") // Junyan Li
+                .addHeader("cid", "22932662-eeaf-4c57-80bb-33dc18d3bd2a") //Jingyi Wang
                 //.addHeader("cid", "452ea9b1-e3f4-4a1b-96ed-c8a359a956f9") //Yuechen Huang
                 .addHeader("sec-ch-ua-mobile", "?0")
                 .addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.104 Safari/537.36")
