@@ -15,8 +15,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -28,10 +31,14 @@ import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.security.cert.CertificateException;
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Hashtable;
 
@@ -66,6 +73,40 @@ public class MainActivity extends AppCompatActivity {
     }
 
     Mode curMode = Mode.INIT;
+
+    WebViewClient myWebViewClient = new WebViewClient(){
+        @Override
+        public WebResourceResponse shouldInterceptRequest (WebView view,
+                WebResourceRequest request){
+
+            // System.out.println(request.getUrl());
+
+            String urlSeg = request.getUrl().getLastPathSegment();
+            // System.out.println(urlSeg);
+
+            if (urlSeg != null && urlSeg.equals("queryLatestHs")) {
+
+                String pattern = "yyyy-MM-dd HH:mm";
+
+                DateFormat df = new SimpleDateFormat(pattern);
+
+                Calendar cal = Calendar.getInstance();
+                cal.add(Calendar.HOUR, -12);
+
+                Date modifiedTime = cal.getTime();
+
+                String modifiedTimeString = df.format(modifiedTime);
+
+                String modifiedResponseData = "{\"res\":{\"currentTime\":1663220904,\"hs\":{\"area\":\"苏州工业园区\",\"collectTime\":\"" + modifiedTimeString + "\",\"collectUnit\":\"苏州市独墅湖医院\",\"collectCity\":\"苏州市\",\"checkResult\":\"阴性\",\"checkUnit\":\"苏州市独墅湖医院\"}},\"resMessage\":\"OK\",\"resCode\":0}";
+                InputStream modifiedResponseStream = new ByteArrayInputStream(modifiedResponseData.getBytes(StandardCharsets.UTF_8));
+
+                WebResourceResponse modifiedResponse = new WebResourceResponse("application/json", "utf-8", modifiedResponseStream);
+                return modifiedResponse;
+            }
+
+            return null;
+        }
+    };
 
     private static OkHttpClient getUnsafeOkHttpClient() {
         try {
@@ -122,6 +163,7 @@ public class MainActivity extends AppCompatActivity {
         curMode = Mode.SUKANG;
 
         passcodeWebView = findViewById(R.id.webView);
+        passcodeWebView.setWebViewClient(myWebViewClient);
         passcodeWebView.loadUrl("https://jsstm.jszwfw.gov.cn/jkmIndex.html?token=b70d63a998f44e8cbe069a7936750f0c0b55baf3c0bf495a86f1b4711023efe8&uuid=P202007261108482619831476");
 
     }
