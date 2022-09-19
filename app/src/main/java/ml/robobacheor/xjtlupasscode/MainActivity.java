@@ -164,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
 
         passcodeWebView = findViewById(R.id.webView);
         passcodeWebView.setWebViewClient(myWebViewClient);
-        passcodeWebView.loadUrl("https://jsstm.jszwfw.gov.cn/jkmIndex.html?token=b70d63a998f44e8cbe069a7936750f0c0b55baf3c0bf495a86f1b4711023efe8&uuid=P202007261108482619831476");
+        passcodeWebView.loadUrl("http://jsstm.jszwfw.gov.cn/jkmIndex.html?token=fbe2cc46b9a74bd0bf067437b52e772d3e6f9d451b20458eb63082374351d644&uuid=P202008061608413965231205");
 
     }
 
