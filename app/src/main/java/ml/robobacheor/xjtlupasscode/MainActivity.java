@@ -23,6 +23,7 @@ import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.google.zxing.BarcodeFormat;
@@ -84,6 +85,14 @@ public class MainActivity extends AppCompatActivity {
             String urlSeg = request.getUrl().getLastPathSegment();
             // System.out.println(urlSeg);
 
+            // initiate a Switch
+            Switch PCRSwitch = (Switch) findViewById(R.id.switch1);
+
+            // check current state of a Switch (true or false).
+            if (!PCRSwitch.isChecked()) {
+                return null;
+            }
+
             if (urlSeg != null && urlSeg.equals("queryLatestHs")) {
 
                 String pattern = "yyyy-MM-dd HH:mm";
@@ -97,7 +106,9 @@ public class MainActivity extends AppCompatActivity {
 
                 String modifiedTimeString = df.format(modifiedTime);
 
-                String modifiedResponseData = "{\"res\":{\"currentTime\":1663220904,\"hs\":{\"area\":\"苏州工业园区\",\"collectTime\":\"" + modifiedTimeString + "\",\"collectUnit\":\"苏州市独墅湖医院\",\"collectCity\":\"苏州市\",\"checkResult\":\"阴性\",\"checkUnit\":\"苏州市独墅湖医院\"}},\"resMessage\":\"OK\",\"resCode\":0}";
+                String timeStamp = Long.toString(System.currentTimeMillis() / 1000);
+
+                String modifiedResponseData = "{\"res\":{\"currentTime\":" + timeStamp + ",\"hs\":{\"area\":\"苏州工业园区\",\"collectTime\":\"" + modifiedTimeString + "\",\"collectUnit\":\"苏州市独墅湖医院\",\"collectCity\":\"苏州市\",\"checkResult\":\"阴性\",\"checkUnit\":\"苏州市独墅湖医院\"}},\"resMessage\":\"OK\",\"resCode\":0}";
                 InputStream modifiedResponseStream = new ByteArrayInputStream(modifiedResponseData.getBytes(StandardCharsets.UTF_8));
 
                 WebResourceResponse modifiedResponse = new WebResourceResponse("application/json", "utf-8", modifiedResponseStream);
@@ -606,6 +617,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        Switch PCRSwitch = (Switch) findViewById(R.id.switch1);
+        PCRSwitch.setAlpha(0.3f);
     }
 
     /** 当活动即将可见时调用 */
