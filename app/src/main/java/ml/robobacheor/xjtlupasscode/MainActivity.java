@@ -75,18 +75,47 @@ public class MainActivity extends AppCompatActivity {
 
     Mode curMode = Mode.INIT;
 
+    Boolean isHide = false;
+
+    Button buttonHide = null;
+    Button buttonDuke = null;
+    Button buttonSukang= null;
+    Button buttonXingcheng= null;
+    Button buttonWenXing = null;
+    Button buttonPasscode = null;
+    Switch PCRSwitch = null;
+    TextView debugTextView = null;
+
+    private void buttonHideOnClick() {
+        if (isHide) {
+            isHide = false;
+            buttonDuke.setVisibility(View.VISIBLE);
+            buttonSukang.setVisibility(View.VISIBLE);
+            buttonXingcheng.setVisibility(View.VISIBLE);
+            buttonWenXing.setVisibility(View.VISIBLE);
+            buttonPasscode.setVisibility(View.VISIBLE);
+            PCRSwitch.setVisibility(View.VISIBLE);
+            debugTextView.setVisibility(View.VISIBLE);
+        } else {
+            isHide = true;
+            buttonDuke.setVisibility(View.INVISIBLE);
+            buttonSukang.setVisibility(View.INVISIBLE);
+            buttonXingcheng.setVisibility(View.INVISIBLE);
+            buttonWenXing.setVisibility(View.INVISIBLE);
+            buttonPasscode.setVisibility(View.INVISIBLE);
+            PCRSwitch.setVisibility(View.INVISIBLE);
+            debugTextView.setVisibility(View.INVISIBLE);
+        }
+    }
+
     WebViewClient myWebViewClient = new WebViewClient(){
         @Override
         public WebResourceResponse shouldInterceptRequest (WebView view,
                 WebResourceRequest request){
 
             // System.out.println(request.getUrl());
-
             String urlSeg = request.getUrl().getLastPathSegment();
             // System.out.println(urlSeg);
-
-            // initiate a Switch
-            Switch PCRSwitch = (Switch) findViewById(R.id.switch1);
 
             // check current state of a Switch (true or false).
             if (!PCRSwitch.isChecked()) {
@@ -223,8 +252,7 @@ public class MainActivity extends AppCompatActivity {
 
         String timeNow = DateFormat.getDateTimeInstance().format(new Date());
 
-        TextView textView = (TextView)findViewById(R.id.textView1);
-        textView.setText(timeNow + "\n" + wenxingQRStr);
+        debugTextView.setText(timeNow + "\n" + wenxingQRStr);
 
         Bitmap passcodeBmp = createQRCodeBitmap(wenxingQRStr, 200, 200, null, "M", "0", 0xFF000000, 0xFFFFFFFF, true);
 
@@ -240,8 +268,7 @@ public class MainActivity extends AppCompatActivity {
 
         ImageView wenxingBgView = (ImageView)findViewById(R.id.imageView3);
 
-        TextView textView = (TextView)findViewById(R.id.textView1);
-        textView.setText("Refreshing...");
+        debugTextView.setText("Refreshing...");
 
         ImageView passcodeView = (ImageView)findViewById(R.id.imageView2);
 
@@ -288,7 +315,7 @@ public class MainActivity extends AppCompatActivity {
             @Override public void onFailure(Call call, IOException e) {
                 e.printStackTrace();
 
-                textView.setText(e.getMessage());
+                debugTextView.setText(e.getMessage());
             }
 
             @Override public void onResponse(Call call, Response response) throws IOException {
@@ -326,7 +353,7 @@ public class MainActivity extends AppCompatActivity {
 
                     String timeNow = DateFormat.getDateTimeInstance().format(new Date());
 
-                    textView.setText(timeNow + "\n" + QRInfo);
+                    debugTextView.setText(timeNow + "\n" + QRInfo);
 
                     Bitmap passcodeBmp = createQRCodeBitmap(QRInfo, 200, 200, null, "H", "0", 0xFF00A650, 0xFFFFFFFF, true);
 
@@ -347,8 +374,7 @@ public class MainActivity extends AppCompatActivity {
 
         ImageView wenxingBgView = (ImageView)findViewById(R.id.imageView3);
 
-        TextView textView = (TextView)findViewById(R.id.textView1);
-        textView.setText("Refreshing...");
+        debugTextView.setText("Refreshing...");
 
         ImageView passcodeView = (ImageView)findViewById(R.id.imageView2);
 
@@ -385,7 +411,7 @@ public class MainActivity extends AppCompatActivity {
             @Override public void onFailure(Call call, IOException e) {
                 e.printStackTrace();
 
-                textView.setText(e.getMessage());
+                debugTextView.setText(e.getMessage());
             }
 
             @Override public void onResponse(Call call, Response response) throws IOException {
@@ -423,7 +449,7 @@ public class MainActivity extends AppCompatActivity {
 
                     String timeNow = DateFormat.getDateTimeInstance().format(new Date());
 
-                    textView.setText(timeNow + "\n" + QRInfo);
+                    debugTextView.setText(timeNow + "\n" + QRInfo);
 
                     Bitmap passcodeBmp = createQRCodeBitmap(QRInfo, 200, 200, null, "H", "0", 0xFF00A650, 0xFFFFFFFF, false);
 
@@ -555,9 +581,21 @@ public class MainActivity extends AppCompatActivity {
     @SuppressLint("SetJavaScriptEnabled")
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
+        getSupportActionBar().hide();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Log.d(msg, "The onCreate() event");
+
+        buttonHide = findViewById(R.id.button6);
+        buttonDuke = findViewById(R.id.button5);
+        buttonSukang= findViewById(R.id.button4);
+        buttonXingcheng= findViewById(R.id.button3);
+        buttonWenXing = findViewById(R.id.button2);
+        buttonPasscode = findViewById(R.id.button);
+        PCRSwitch = (Switch) findViewById(R.id.switch1);
+        debugTextView = (TextView)findViewById(R.id.textView1);
 
         passcodeWebView = findViewById(R.id.webView);
         passcodeWebView.loadUrl("file:///android_asset/Passcode.html");
@@ -567,15 +605,13 @@ public class MainActivity extends AppCompatActivity {
 
         setAppBrightness(1.0f);
 
-        final Button button = findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener() {
+        buttonPasscode.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
                 refreshPassCode();
             }
         });
 
-        final Button buttonWenXing = findViewById(R.id.button2);
         buttonWenXing.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
@@ -583,7 +619,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        final Button buttonXingcheng= findViewById(R.id.button3);
         buttonXingcheng.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
@@ -591,7 +626,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        final Button buttonSukang= findViewById(R.id.button4);
         buttonSukang.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
@@ -599,11 +633,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        final Button buttonDuke = findViewById(R.id.button5);
         buttonDuke.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Code here executes on main thread after user presses button
                 refreshDKUCode();
+            }
+        });
+
+        buttonHide.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Code here executes on main thread after user presses button
+                buttonHideOnClick();
             }
         });
 
@@ -617,7 +657,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Switch PCRSwitch = (Switch) findViewById(R.id.switch1);
         PCRSwitch.setAlpha(0.3f);
     }
 
