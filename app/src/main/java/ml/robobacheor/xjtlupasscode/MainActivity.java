@@ -175,7 +175,7 @@ public class MainActivity extends AppCompatActivity {
 
         passcodeWebView = findViewById(R.id.webView);
         passcodeWebView.setWebViewClient(myWebViewClient);
-        passcodeWebView.loadUrl("https://jsstm.jszwfw.gov.cn/jkmIndex.html?token=b70d63a998f44e8cbe069a7936750f0c0b55baf3c0bf495a86f1b4711023efe8&uuid=P202007261108482619831476");
+        passcodeWebView.loadUrl("https://jsstm.jszwfw.gov.cn/jkmIndex.html?token=d7a92351d29c4e8b898486a6a928064f2ed5e93c64e94b69a8f1f8429f2c9fa9&uuid=P202008071611120699865220");
 
     }
 
@@ -192,7 +192,7 @@ public class MainActivity extends AppCompatActivity {
         curMode = Mode.XINGCHENG;
 
         passcodeWebView = findViewById(R.id.webView);
-        passcodeWebView.loadUrl("file:///android_asset/result.html?phone=185****0068&addr=江苏省苏州市");
+        passcodeWebView.loadUrl("file:///android_asset/result.html?phone=188****3199&addr=江苏省苏州市");
 
     }
 
@@ -219,7 +219,7 @@ public class MainActivity extends AppCompatActivity {
         long timeStamp = System.currentTimeMillis();
 
         // String wenxingQRStr = "oIF__t4FOyjxLIeRwcs130wxoUdM|-|" + timeStamp;
-        String wenxingQRStr = "or3265eTWLpabHcaI0MLcTHEowv0|-|" + timeStamp + "|x|huihutong";
+        String wenxingQRStr = "or3265fRSGe2n88tLG-xwkoT3a_o|-|" + timeStamp + "|x|huihutong";
 
         String timeNow = DateFormat.getDateTimeInstance().format(new Date());
 
@@ -250,7 +250,7 @@ public class MainActivity extends AppCompatActivity {
             passcodeWebView.loadUrl("file:///android_asset/Passcode.html");
 
             passcodeView.setVisibility(View.VISIBLE);
-            passcodeView.setTranslationY(40);
+            passcodeView.setTranslationY(0);
             passcodeView.setScaleX(1.f);
             passcodeView.setScaleY(1.f);
 
@@ -270,7 +270,8 @@ public class MainActivity extends AppCompatActivity {
                 .addHeader("Accept", "application/json, text/plain, */*")
                 //.addHeader("cid", "f223116f-2e1c-4d1b-968f-85b8b8e80018") // R. Qi
                 //.addHeader("cid", "0bcffe27-1d46-4ca4-b92a-ff562c41cafa") // Junyan Li
-                .addHeader("cid", "22932662-eeaf-4c57-80bb-33dc18d3bd2a") //Jingyi Wang
+                //.addHeader("cid", "22932662-eeaf-4c57-80bb-33dc18d3bd2a") //Jingyi Wang
+                .addHeader("cid", "8496cda6-a4a6-4e8b-afb3-7719254845e6") //Yifan Wang
                 //.addHeader("cid", "452ea9b1-e3f4-4a1b-96ed-c8a359a956f9") //Yuechen Huang
                 .addHeader("sec-ch-ua-mobile", "?0")
                 .addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.104 Safari/537.36")
