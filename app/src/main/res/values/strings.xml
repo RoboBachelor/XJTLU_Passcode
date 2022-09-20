@@ -7,4 +7,5 @@
     <string name="buttonSukang">苏康</string>
     <string name="buttonDuke">杜克</string>
     <string name="textDebug">Debug information</string>
+    <string name="textPCREnable">PCR</string>
 </resources>
